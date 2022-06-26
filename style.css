@@ -1,16 +1,16 @@
 body {
-    background-color: cornsilk;
-    text-align: center;
+  background-color: cornsilk;
+  text-align: center;
 }
 
 .letter {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 
 .warnings {
-    color: red;
+  color: red;
 }
 
 .notguessed {
-    color: orange;
+  color: orange;
 }
