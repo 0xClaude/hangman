@@ -153,7 +153,11 @@ function checkClick() {
 // Event Listeners for keydowns
 document.addEventListener("keydown", (e) => {
   let keycode = e.code[e.code.length - 1];
-  if (letters.includes(keycode) && wrongCounter > 0) {
+  if (
+    letters.includes(keycode) &&
+    wrongCounter > 0 &&
+    !guesses.includes(keycode)
+  ) {
     checkLetter(keycode.toUpperCase(), secretWord);
     disableButton(keycode);
   }
@@ -171,7 +175,7 @@ document.querySelector("#newword").addEventListener("click", () => {
 // HTML formatting
 //
 
-// Update the hidden word
+// Update the hidden word on screen
 function updateWord() {
   let display = "";
   for (let i = 0; i < hiddenWord.length; i++) {
@@ -183,12 +187,7 @@ function updateWord() {
   }
 }
 
-// remove the red warning
-function removeWarning() {
-  document.querySelector(".warnings").innerHTML = "";
-}
-
-// remove the red guessings
+// remove the remaining guesses display
 function removeGuessings() {
   document.querySelector(".guesses").innerHTML = "";
 }
@@ -206,16 +205,12 @@ function remainingGuesses(number) {
 // check if the letter is in the word
 function checkLetter(letter, word) {
   // Checking if we already tried the letter;
-  if (guesses.includes(letter)) {
-    document.querySelector(".warnings").innerHTML =
-      'You already tried "' + letter.toUpperCase() + '"';
-    // remove the warning after 1s
-    setTimeout(removeWarning, 1000);
-  } else {
+  if (!guesses.includes(letter)) {
     // add the letter to the guessed list
     guesses.push(letter);
     // check if the letter is in the word
     if (word.includes(letter)) {
+      // display the word rather than the "_"
       replaceLetter(letter);
     } else {
       wrongCounter -= 1;
@@ -238,6 +233,8 @@ function replaceLetter(letter) {
       guessedLetters += 1;
     }
   }
+  // call updateWord() function to display
+  // the correct word on the scren
   updateWord();
 }
 
@@ -245,6 +242,7 @@ function replaceLetter(letter) {
 function revealword() {
   let reveal = "";
   for (let i = 0; i < secretWord.length; i++) {
+    // add extra color if the user hasn't guessed the word
     if (hiddenWord[i] === "_") {
       reveal = reveal + '<span class="notguessed">' + secretWord[i] + "</span>";
     } else {
@@ -291,7 +289,7 @@ function lostGame() {
   revealword();
 
   // calling reset functions
-  removeWarning();
+
   disableAllButtons();
   removeGuessings();
 }
@@ -305,7 +303,7 @@ function wonGame() {
   document.querySelector("#newword").innerHTML = "Play again";
 
   // calling reset functions
-  removeWarning();
+
   disableAllButtons();
   removeGuessings();
 }
