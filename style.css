@@ -1,0 +1,16 @@
+body {
+    background-color: cornsilk;
+    text-align: center;
+}
+
+.letter {
+    text-transform: capitalize;
+}
+
+.warnings {
+    color: red;
+}
+
+.notguessed {
+    color: orange;
+}
